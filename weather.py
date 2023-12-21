@@ -13,6 +13,12 @@ class WeatherData:
     description: str
     icon: str
     temperature: float
+    feels_like: float
+    temp_min: float
+    temp_max: float
+    humidity: int
+    sunrise: int
+    sunset: int
 
 
 def get_lan_lon(city_name, state_code, country_code, API_KEY):
@@ -24,15 +30,31 @@ def get_lan_lon(city_name, state_code, country_code, API_KEY):
 
 
 def get_current_weather(lat, lon, API_KEY):
-    resp = requests.get(
-        f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric').json()
-    data = WeatherData(
-        main=resp.get('weather')[0].get('main'),
-        description=resp.get('weather')[0].get('description'),
-        icon=resp.get('weather')[0].get('icon'),
-        temperature=resp.get('main').get('temp'),
-    )
-    return data
+    try:
+        resp = requests.get(
+            f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric').json()
+
+        if 'main' in resp and 'weather' in resp:
+            weather_data = WeatherData(
+                main=resp['weather'][0]['main'],
+                description=resp['weather'][0]['description'],
+                icon=resp['weather'][0]['icon'],
+                temperature=resp['main']['temp'],
+                feels_like=resp['main']['feels_like'],
+                temp_min=resp['main']['temp_min'],
+                temp_max=resp['main']['temp_max'],
+                humidity=resp['main']['humidity'],
+                sunrise=resp['sys']['sunrise'],
+                sunset=resp['sys']['sunset']
+            )
+            return weather_data
+        else:
+            print("Unexpected JSON structure:", resp)
+            return None
+
+    except Exception as e:
+        print("Error fetching weather data:", e)
+        return None
 
 
 def main(city_name, state_name, country_name):

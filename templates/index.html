@@ -83,37 +83,43 @@
         p {
             font-size: 16px;
         }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Weather</h1>
-        <form action="/" method="post">
-            <div class="input-group">
-                <input type="text" id="cityName" name="cityName" placeholder="City" required>
-            </div>
-            <div class="input-group">
-                <input type="text" id="stateName" name="stateName" placeholder="State (optional)">
-            </div>
-            <div class="input-group">
-                <input type="text" id="countryName" name="countryName" placeholder="Country" required>
-            </div>
-            <div class="input-group">
-                <button type="submit">Get Weather</button>
-            </div>
-        </form>
-        {% if not city or not country %}
-        <p>Please enter values to search for weather.</p>
-        {% else %}
-            {% if data %}
-            <div class="weather-data">
-                <h1>Weather in {{ city }}, {{ country }}</h1>
-                <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
-                <h2>{{ data.temperature }} °C</h2>
-                <p>{{ data.description }}</p>
-            </div>
-            {% endif %}
-        {% endif %}
-    </div>
+<div class="container">
+    <h1>Weather</h1>
+    <form action="/" method="post">
+        <div class="input-group">
+            <input type="text" id="cityName" name="cityName" placeholder="City" required>
+        </div>
+        <div class="input-group">
+            <input type="text" id="stateName" name="stateName" placeholder="State (optional)">
+        </div>
+        <div class="input-group">
+            <input type="text" id="countryName" name="countryName" placeholder="Country" required>
+        </div>
+        <div class="input-group">
+            <button type="submit">Get Weather</button>
+        </div>
+    </form>
+    {% if not city or not country %}
+    <p>Please enter values to search for weather.</p>
+    {% else %}
+    {% if data %}
+    <div class="weather-data">
+        <h1>Weather in {{ city }}, {{ country }}</h1>
+        <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
+        <h2>{{ data.temperature }} °C</h2>
+        <p>Feels like: {{ data.feels_like }} °C</p>
+        <p>Min temperature: {{ data.temp_min }} °C</p>
+        <p>Max temperature: {{ data.temp_max }} °C</p>
+        <p>Humidity: {{ data.humidity }}%</p>
+        <p>Sunrise: {{ data.sunrise | timestamp_to_datetime }}</p>
+        <p>Sunset: {{ data.sunset | timestamp_to_datetime }}</p>
+        <p>{{ data.description }}</p></div>
+    {% endif %}
+    {% endif %}
+</div>
 </body>
 </html>
