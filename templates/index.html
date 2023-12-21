@@ -16,15 +16,18 @@
             height: 100vh;
         }
 
-        .container {
-            text-align: center;
-            max-width: 400px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-        }
-
+    .container {
+    text-align: center;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    margin: auto; /* Center the container horizontally */
+    }
+    table {
+    margin: auto;
+    }
         h1 {
             font-size: 36px;
             color: #3498db;
@@ -87,6 +90,11 @@
 
 
 
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -112,17 +120,46 @@
     {% if data %}
     <div class="weather-data">
         <h1>Weather in {{ city }}, {{ country }}</h1>
-        <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
-        <h2>{{ data.temperature }} °C</h2>
-        <p>Feels like: {{ data.feels_like }} °C</p>
-        <p>Min temperature: {{ data.temp_min }} °C</p>
-        <p>Max temperature: {{ data.temp_max }} °C</p>
-        <p>Humidity: {{ data.humidity }}%</p>
-        <p>Sunrise: {{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-        <p>Sunset: {{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-        <p>{{ data.description }}</p></div>
-    {% endif %}
-    {% endif %}
+        <table>
+            <tr>
+                <td colspan="2">
+                    <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
+            <tr>
+                <td colspan="2">{{ data.description }}</td>
+            </tr>
+            <h2>{{ data.temperature }} °C</h2>
+            </td>
+            </tr>
+            <tr>
+                <td>Feels like:</td>
+                <td>{{ data.feels_like }} °C</td>
+            </tr>
+            <tr>
+                <td>Min temperature:</td>
+                <td>{{ data.temp_min }} °C</td>
+            </tr>
+            <tr>
+                <td>Max temperature:</td>
+                <td>{{ data.temp_max }} °C</td>
+            </tr>
+            <tr>
+                <td>Humidity:</td>
+                <td>{{ data.humidity }}%</td>
+            </tr>
+            <tr>
+                <td>Sunrise:</td>
+                <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+            <tr>
+                <td>Sunset:</td>
+                <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+
+        </table>
+        {% endif %}
+        {% endif %}
+    </div>
 </div>
+
 </body>
 </html>

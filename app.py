@@ -1,11 +1,7 @@
 from flask import Flask, render_template, request
 from weather import main as get_weather
-from processDateTime import *
 
 app = Flask(__name__)
-
-# Register the filter with Jinja2
-app.jinja_env.filters['timestamp_to_datetime'] = timestamp_to_datetime
 
 
 @app.route('/', methods=['GET', 'POST'])
