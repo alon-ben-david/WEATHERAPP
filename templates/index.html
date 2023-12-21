@@ -84,6 +84,9 @@
             font-size: 16px;
         }
 
+
+
+
     </style>
 </head>
 <body>
@@ -115,8 +118,8 @@
         <p>Min temperature: {{ data.temp_min }} °C</p>
         <p>Max temperature: {{ data.temp_max }} °C</p>
         <p>Humidity: {{ data.humidity }}%</p>
-        <p>Sunrise: {{ data.sunrise | timestamp_to_datetime }}</p>
-        <p>Sunset: {{ data.sunset | timestamp_to_datetime }}</p>
+        <p>Sunrise: {{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        <p>Sunset: {{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</p>
         <p>{{ data.description }}</p></div>
     {% endif %}
     {% endif %}

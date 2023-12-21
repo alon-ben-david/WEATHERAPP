@@ -2,6 +2,7 @@ import requests
 from dotenv import load_dotenv
 import os
 from dataclasses import dataclass
+from processDateTime import *
 
 load_dotenv()
 api_key = os.getenv('API_KEY')
@@ -60,6 +61,9 @@ def get_current_weather(lat, lon, API_KEY):
 def main(city_name, state_name, country_name):
     lat, lon = get_lan_lon(city_name, state_name, country_name, api_key)
     weather_data = get_current_weather(lat, lon, api_key)
+    weather_data.sunrise = convert_utc_to_local(weather_data.sunrise)
+    weather_data.sunset = convert_utc_to_local(weather_data.sunset)
+
     return weather_data
 
 
