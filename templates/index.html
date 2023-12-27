@@ -149,7 +149,7 @@
             <button type="button" onclick="getWeatherForLocation()">Get Weather for Your Location</button>
         </div>
 
-    </form>{% if error_message %}
+    </form><div class="weather-data">{% if error_message %}
     <p>{{ error_message }}</p>
 {% else %}
     {% if (not city or not country) and not data %}
@@ -159,7 +159,7 @@
         <p>Please enter values to search for weather.</p>
     {% else %}
         {% if not city or not country and data %}
-            <div class="weather-data">
+
                 <h1>Weather in your location:</h1>
                 <table>
                     <tr>
