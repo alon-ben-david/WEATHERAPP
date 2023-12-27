@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Magic</title>
+    <div class="btn-container">
+        <a href="{{ url_for('login') }}">
+            <button style="background-color: #1b23fa; color: #fff; padding: 10px 20px; font-size: 18px; cursor: pointer; border: none; border-radius: 8px; transition: background-color 0.3s ease;">
+                Login
+            </button>
+        </a>
+
+        <a href="{{ url_for('register') }}">
+            <button style="background-color: #27ae60; color: #fff; padding: 10px 20px; font-size: 18px; cursor: pointer; border: none; border-radius: 8px; transition: background-color 0.3s ease;">
+                Register
+            </button>
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            <button style="background-color: #e74c3c; color: #fff; padding: 10px 20px; font-size: 18px; cursor: pointer; border: none; border-radius: 8px; transition: background-color 0.3s ease;">
+                Logout
+            </button>
+        </a>
+    </div>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -88,16 +107,36 @@
             font-size: 16px;
         }
 
+    .btn-container {
+        display: flex;
+        justify-content: flex-start;
+        margin: 10px;
+    }
 
+    .btn-container a {
+        margin-right: 10px;
+        text-decoration: none;
+    }
 
+    .btn-container button {
+        background-color: #1b23fa;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
 
+    .btn-container button:hover {
+        background-color: #0e153a;
+    }
 
-
-
-
-
-
-
+    .content {
+        flex-grow: 1;
+        text-align: center;
+    }
     </style>
     <script>
         function getWeatherForLocation() {
@@ -122,9 +161,11 @@
 
 
 
+
     </script>
 </head>
 <body>
+
 <form action="/" method="post" id="weatherForm">
 
     <input type="hidden" id="latitude" name="latitude">
@@ -149,102 +190,103 @@
             <button type="button" onclick="getWeatherForLocation()">Get Weather for Your Location</button>
         </div>
 
-    </form><div class="weather-data">{% if error_message %}
-    <p>{{ error_message }}</p>
-{% else %}
-    {% if (not city or not country) and not data %}
+    </form>
+    <div class="weather-data">{% if error_message %}
+        <p>{{ error_message }}</p>
+        {% else %}
+        {% if (not city or not country) and not data %}
         <tr>
-            <td><h2>{{ data.temperature }} °C</h2></td>
+            <td><p>Please enter values to search for weather.</p></td>
         </tr>
-        <p>Please enter values to search for weather.</p>
-    {% else %}
+
+        {% else %}
         {% if not city or not country and data %}
 
-                <h1>Weather in your location:</h1>
-                <table>
-                    <tr>
-                        <td colspan="2">
-                            <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">{{ data.description }}</td>
-                    </tr>
-                    <tr>
-                        <td><h2>{{ data.temperature }} °C</h2></td>
-                    </tr>
-                    <tr>
-                        <td>Feels like:</td>
-                        <td>{{ data.feels_like }} °C</td>
-                    </tr>
-                    <tr>
-                        <td>Min temperature:</td>
-                        <td>{{ data.temp_min }} °C</td>
-                    </tr>
-                    <tr>
-                        <td>Max temperature:</td>
-                        <td>{{ data.temp_max }} °C</td>
-                    </tr>
-                    <tr>
-                        <td>Humidity:</td>
-                        <td>{{ data.humidity }}%</td>
-                    </tr>
-                    <tr>
-                        <td>Sunrise:</td>
-                        <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Sunset:</td>
-                        <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                    </tr>
-                </table>
-            </div>
-        {% else %}
-            <div class="weather-data">
-                <h1>Weather in {{ city }}, {{ country }}</h1>
-                <table>
-                    <tr>
-                        <td colspan="2">
-                            <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">{{ data.description }}</td>
-                    </tr>
-                    <tr>
-                        <td><h2>{{ data.temperature }} °C</h2></td>
-                    </tr>
-                    <tr>
-                        <td>Feels like:</td>
-                        <td>{{ data.feels_like }} °C</td>
-                    </tr>
-                    <tr>
-                        <td>Min temperature:</td>
-                        <td>{{ data.temp_min }} °C</td>
-                    </tr>
-                    <tr>
-                        <td>Max temperature:</td>
-                        <td>{{ data.temp_max }} °C</td>
-                    </tr>
-                    <tr>
-                        <td>Humidity:</td>
-                        <td>{{ data.humidity }}%</td>
-                    </tr>
-                    <tr>
-                        <td>Sunrise:</td>
-                        <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Sunset:</td>
-                        <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                    </tr>
-                </table>
-            </div>
-        {% endif %}
+        <h1>Weather in your location:</h1>
+        <table>
+            <tr>
+                <td colspan="2">
+                    <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">{{ data.description }}</td>
+            </tr>
+            <tr>
+                <td><h2>{{ data.temperature }} °C</h2></td>
+            </tr>
+            <tr>
+                <td>Feels like:</td>
+                <td>{{ data.feels_like }} °C</td>
+            </tr>
+            <tr>
+                <td>Min temperature:</td>
+                <td>{{ data.temp_min }} °C</td>
+            </tr>
+            <tr>
+                <td>Max temperature:</td>
+                <td>{{ data.temp_max }} °C</td>
+            </tr>
+            <tr>
+                <td>Humidity:</td>
+                <td>{{ data.humidity }}%</td>
+            </tr>
+            <tr>
+                <td>Sunrise:</td>
+                <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+            <tr>
+                <td>Sunset:</td>
+                <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+        </table>
+    </div>
+    {% else %}
+    <div class="weather-data">
+        <h1>Weather in {{ city }}, {{ country }}</h1>
+        <table>
+            <tr>
+                <td colspan="2">
+                    <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">{{ data.description }}</td>
+            </tr>
+            <tr>
+                <td><h2>{{ data.temperature }} °C</h2></td>
+            </tr>
+            <tr>
+                <td>Feels like:</td>
+                <td>{{ data.feels_like }} °C</td>
+            </tr>
+            <tr>
+                <td>Min temperature:</td>
+                <td>{{ data.temp_min }} °C</td>
+            </tr>
+            <tr>
+                <td>Max temperature:</td>
+                <td>{{ data.temp_max }} °C</td>
+            </tr>
+            <tr>
+                <td>Humidity:</td>
+                <td>{{ data.humidity }}%</td>
+            </tr>
+            <tr>
+                <td>Sunrise:</td>
+                <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+            <tr>
+                <td>Sunset:</td>
+                <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+        </table>
+    </div>
     {% endif %}
-{% endif %}
+    {% endif %}
+    {% endif %}
 
-{% set data = None %}
+    {% set data = None %}
 
 
 </div>
