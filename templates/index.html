@@ -35,7 +35,7 @@
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         input[type="text"] {
@@ -54,6 +54,7 @@
         button {
             width: 100%;
             background-color: #3498db;
+            margin-bottom: 10px;
             color: #fff;
             padding: 15px;
             border: none;
@@ -95,9 +96,40 @@
 
 
 
+
+
     </style>
+    <script>
+        function getWeatherForLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Set the hidden input values
+                    document.getElementById('latitude').value = latitude;
+                    document.getElementById('longitude').value = longitude;
+
+                    // Submit the form
+                    document.getElementById('weatherForm').submit();
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+
+
+
+
+    </script>
 </head>
 <body>
+<form action="/" method="post" id="weatherForm">
+
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+</form>
 <div class="container">
     <h1>Weather</h1>
     <form action="/" method="post">
@@ -109,57 +141,113 @@
         </div>
         <div class="input-group">
             <input type="text" id="countryName" name="countryName" placeholder="Country" required>
+
         </div>
+
         <div class="input-group">
             <button type="submit">Get Weather</button>
+            <button type="button" onclick="getWeatherForLocation()">Get Weather for Your Location</button>
         </div>
-    </form>
-    {% if not city or not country %}
-    <p>Please enter values to search for weather.</p>
+
+    </form>{% if error_message %}
+    <p>{{ error_message }}</p>
+{% else %}
+    {% if (not city or not country) and not data %}
+        <tr>
+            <td><h2>{{ data.temperature }} °C</h2></td>
+        </tr>
+        <p>Please enter values to search for weather.</p>
     {% else %}
-    {% if data %}
-    <div class="weather-data">
-        <h1>Weather in {{ city }}, {{ country }}</h1>
-        <table>
-            <tr>
-                <td colspan="2">
-                    <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
-            <tr>
-                <td colspan="2">{{ data.description }}</td>
-            </tr>
-            <h2>{{ data.temperature }} °C</h2>
-            </td>
-            </tr>
-            <tr>
-                <td>Feels like:</td>
-                <td>{{ data.feels_like }} °C</td>
-            </tr>
-            <tr>
-                <td>Min temperature:</td>
-                <td>{{ data.temp_min }} °C</td>
-            </tr>
-            <tr>
-                <td>Max temperature:</td>
-                <td>{{ data.temp_max }} °C</td>
-            </tr>
-            <tr>
-                <td>Humidity:</td>
-                <td>{{ data.humidity }}%</td>
-            </tr>
-            <tr>
-                <td>Sunrise:</td>
-                <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            </tr>
-            <tr>
-                <td>Sunset:</td>
-                <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            </tr>
+        {% if not city or not country and data %}
+            <div class="weather-data">
+                <h1>Weather in your location:</h1>
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{ data.description }}</td>
+                    </tr>
+                    <tr>
+                        <td><h2>{{ data.temperature }} °C</h2></td>
+                    </tr>
+                    <tr>
+                        <td>Feels like:</td>
+                        <td>{{ data.feels_like }} °C</td>
+                    </tr>
+                    <tr>
+                        <td>Min temperature:</td>
+                        <td>{{ data.temp_min }} °C</td>
+                    </tr>
+                    <tr>
+                        <td>Max temperature:</td>
+                        <td>{{ data.temp_max }} °C</td>
+                    </tr>
+                    <tr>
+                        <td>Humidity:</td>
+                        <td>{{ data.humidity }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Sunrise:</td>
+                        <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sunset:</td>
+                        <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% else %}
+            <div class="weather-data">
+                <h1>Weather in {{ city }}, {{ country }}</h1>
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <img src="https://openweathermap.org/img/wn/{{ data.icon }}.png" alt="{{ data.description }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{ data.description }}</td>
+                    </tr>
+                    <tr>
+                        <td><h2>{{ data.temperature }} °C</h2></td>
+                    </tr>
+                    <tr>
+                        <td>Feels like:</td>
+                        <td>{{ data.feels_like }} °C</td>
+                    </tr>
+                    <tr>
+                        <td>Min temperature:</td>
+                        <td>{{ data.temp_min }} °C</td>
+                    </tr>
+                    <tr>
+                        <td>Max temperature:</td>
+                        <td>{{ data.temp_max }} °C</td>
+                    </tr>
+                    <tr>
+                        <td>Humidity:</td>
+                        <td>{{ data.humidity }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Sunrise:</td>
+                        <td>{{ data.sunrise.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sunset:</td>
+                        <td>{{ data.sunset.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endif %}
 
-        </table>
-        {% endif %}
-        {% endif %}
-    </div>
+{% set data = None %}
+
+
 </div>
-
+</div>
 </body>
 </html>

@@ -24,15 +24,30 @@ class WeatherData:
 
 
 def get_lan_lon(city_name, state_code, country_code, API_KEY):
-    resp = requests.get(
-        f'http://api.openweathermap.org/geo/1.0/direct?q={city_name},{state_code},{country_code}&limit={1}&appid={API_KEY}').json()
-    data = resp[0]
-    lat, lon = data.get('lat'), data.get('lon')
-    return lat, lon
+    try:
+        resp = requests.get(
+            f'http://api.openweathermap.org/geo/1.0/direct?q={city_name},{state_code},{country_code}&limit={1}&appid={API_KEY}').json()
+
+        # Check if the response contains valid location data
+        if resp and isinstance(resp, list) and len(resp) > 0:
+            data = resp[0]
+            lat, lon = data.get('lat'), data.get('lon')
+            print(lat)
+            print(lon)
+            return lat, lon
+        else:
+            print("Invalid city or country name.")
+            return None, None
+
+    except Exception as e:
+        print("Error fetching location data:", e)
+        return None, None
 
 
 def get_current_weather(lat, lon, API_KEY):
     try:
+        if lat is None or lon is None:
+            return None
         resp = requests.get(
             f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric').json()
 
@@ -59,12 +74,20 @@ def get_current_weather(lat, lon, API_KEY):
         return None
 
 
-def main(city_name, state_name, country_name):
-    lat, lon = get_lan_lon(city_name, state_name, country_name, api_key)
-    weather_data = get_current_weather(lat, lon, api_key)
+def main(city_name, state_name, country_name, latitude=None, longitude=None):
+    if latitude is None or longitude is None:
+        # If latitude and longitude are not provided, obtain them using the city, state, and country
+        latitude, longitude = get_lan_lon(city_name, state_name, country_name, api_key)
+
+    # Use the latitude and longitude to get weather data
+    weather_data = get_current_weather(latitude, longitude, api_key)
+    if weather_data == None:
+
+        return weather_data
     weather_data.sunrise = convert_utc_to_local(weather_data.sunrise)
     weather_data.sunset = convert_utc_to_local(weather_data.sunset)
-
+    print(weather_data.temp_max
+          )
     return weather_data
 
 
