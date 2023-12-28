@@ -4,7 +4,9 @@ import secrets
 import myLocation
 from weather import main as get_weather
 from dotenv import load_dotenv
+from database_management import *
 import os
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 # MySQL Configuration
@@ -23,6 +25,8 @@ def index():
     city = None
     state = None
     country = None
+    latitude = None
+    longitude = None
 
     myLocation.get_location_info()
 
@@ -110,6 +114,19 @@ def register():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/search_history')
+def search_history():
+    # Check if the user is logged in
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch search history data for the logged-in user
+    user_id = get_user_id_by_username(session['username'])
+    search_history_data = get_search_history(user_id)
+    print(search_history_data)  # Add this line to print the retrieved data
+
+    return render_template('search_history.html', search_history=search_history_data, user_id=user_id)
 
 
 if __name__ == "__main__":

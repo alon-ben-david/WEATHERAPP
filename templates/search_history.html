@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search History</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #3498db;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+            margin: auto; /* Center the container horizontally */
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #3498db;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .btn-container a button {
+            background-color: #1b23fa;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-container a button:hover {
+            background-color: #0e153a;
+        }
+
+        .btn-container a {
+            text-decoration: none; /* Remove underline for links in buttons */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Search History</h1>
+    <div class="btn-container">
+        <a href="{{ url_for('login') }}">
+            <button>Login</button>
+        </a>
+        <a href="{{ url_for('index') }}">
+            <button>Home</button>
+        </a>
+        <a href="{{ url_for('register') }}">
+            <button>Register</button>
+        </a>
+        <a href="{{ url_for('logout') }}">
+            <button>Logout</button>
+        </a>
+    </div>
+
+   {% if search_history %}
+    <table>
+        <tr>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Timestamp</th>
+        </tr>
+      {% for entry in search_history %}
+        <tr>
+            <td>{% if entry[2] %}{{ entry[2] }}{% else %} {% endif %}</td>
+            <td>{% if entry[3] %}{{ entry[3] }}{% else %} {% endif %}</td>
+            <td>{% if entry[4] %}{{ entry[4] }}{% else %} {% endif %}</td>
+            <td>{% if entry[5] %}{{ entry[5] }}{% else %} {% endif %}</td>
+            <td>{% if entry[6] %}{{ entry[6] }}{% else %} {% endif %}</td>
+            <td>{% if entry[7] %}{{ entry[7] }}{% else %} {% endif %}</td>
+        </tr>
+      {% endfor %}
+        </table>
+    {% else %}
+        <p>No search history available.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
