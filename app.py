@@ -3,13 +3,14 @@ from flask_mysqldb import MySQL
 import secrets
 import myLocation
 from weather import main as get_weather
-
+from dotenv import load_dotenv
+import os
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 # MySQL Configuration
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Benda206'
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DB'] = 'flask_users'
 
 mysql = MySQL(app)
@@ -58,7 +59,8 @@ def index():
                 error_message = "Invalid city or country name."
 
     if 'username' in session:
-
+        user_id = get_user_id_by_username(session['username'])
+        save_search_history(user_id, city, state, country, latitude, longitude)
         return render_template('index.html', data=data, city=city, country=country, error_message=error_message,
                                username=session['username'])
     else:
