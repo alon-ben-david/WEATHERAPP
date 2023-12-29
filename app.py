@@ -115,6 +115,7 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
+
 @app.route('/search_history')
 def search_history():
     # Check if the user is logged in
@@ -124,9 +125,12 @@ def search_history():
     # Fetch search history data for the logged-in user
     user_id = get_user_id_by_username(session['username'])
     search_history_data = get_search_history(user_id)
-    print(search_history_data)  # Add this line to print the retrieved data
+    city_country_searches = [entry for entry in search_history_data if entry[2] and entry[4]]
+    coordinate_searches = [entry for entry in search_history_data if not (entry[2] and entry[4])]
 
-    return render_template('search_history.html', search_history=search_history_data, user_id=user_id)
+    # Pass the filtered lists to your template
+    return render_template('search_history.html', city_country_searches=city_country_searches,
+                           coordinate_searches=coordinate_searches)
 
 
 if __name__ == "__main__":

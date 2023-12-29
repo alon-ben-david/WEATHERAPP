@@ -4,29 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Magic</title>
-    <div class="btn-container">
-        <a href="{{ url_for('login') }}">
-            <button style="background-color: #1b23fa; color: #fff; padding: 10px 20px; font-size: 18px; cursor: pointer; border: none; border-radius: 8px; transition: background-color 0.3s ease;">
-                Login
-            </button>
-        </a>
 
-        <a href="{{ url_for('register') }}">
-            <button style="background-color: #27ae60; color: #fff; padding: 10px 20px; font-size: 18px; cursor: pointer; border: none; border-radius: 8px; transition: background-color 0.3s ease;">
-                Register
-            </button>
-        </a>
- <a href="{{ url_for('search_history') }}">
-            <button style="background-color: #e74c3c; color: #fff; padding: 10px 20px; font-size: 18px; cursor: pointer; border: none; border-radius: 8px; transition: background-color 0.3s ease;">
-                Search History
-            </button>
-        </a>
-        <a href="{{ url_for('logout') }}">
-            <button style="background-color: #e74c3c; color: #fff; padding: 10px 20px; font-size: 18px; cursor: pointer; border: none; border-radius: 8px; transition: background-color 0.3s ease;">
-                Logout
-            </button>
-        </a>
-    </div>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,13 +19,14 @@
 
     .container {
     text-align: center;
-    max-width: 400px;
+    max-width: 800px; /* Adjust the max-width as needed */
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
     margin: auto; /* Center the container horizontally */
-    }
+    overflow: hidden; /* Ensure content within the container doesn't overflow */
+}
     table {
     margin: auto;
     }
@@ -123,7 +102,7 @@
     }
 
     .btn-container button {
-        background-color: #1b23fa;
+        background-color: #2980b9;
         color: #fff;
         padding: 10px 20px;
         font-size: 18px;
@@ -177,6 +156,29 @@
 </form>
 <div class="container">
     <h1>Weather</h1>
+        <div class="btn-container">
+        <a href="{{ url_for('login') }}">
+            <button >
+                Login
+            </button>
+        </a>
+
+        <a href="{{ url_for('register') }}">
+            <button>
+                Register
+            </button>
+        </a>
+ <a href="{{ url_for('search_history') }}">
+            <button>
+                Search History
+            </button>
+        </a>
+        <a href="{{ url_for('logout') }}">
+            <button>
+                Logout
+            </button>
+        </a>
+    </div>
     <form action="/" method="post">
         <div class="input-group">
             <input type="text" id="cityName" name="cityName" placeholder="City" required>

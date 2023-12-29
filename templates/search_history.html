@@ -17,21 +17,22 @@
         }
 
         .container {
-            text-align: center;
-            max-width: 400px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-            margin: auto; /* Center the container horizontally */
-        }
+    text-align: center;
+    max-width: 800px; /* Adjust the max-width as needed */
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    margin: auto; /* Center the container horizontally */
+    overflow: hidden; /* Ensure content within the container doesn't overflow */
+}
 
-        table {
-            margin: auto;
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
+table {
+    margin: auto;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
 
         th, td {
             border: 1px solid #3498db;
@@ -60,30 +61,30 @@
         }
 
         .btn-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+        display: flex;
+        justify-content: flex-start;
+        margin: 10px;
+    }
 
-        .btn-container a button {
-            background-color: #1b23fa;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-        }
+    .btn-container a {
+        margin-right: 10px;
+        text-decoration: none;
+    }
 
-        .btn-container a button:hover {
-            background-color: #0e153a;
-        }
+    .btn-container button {
+        background-color: #2980b9;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
 
-        .btn-container a {
-            text-decoration: none; /* Remove underline for links in buttons */
-        }
+    .btn-container button:hover {
+        background-color: #0e153a;
+    }
 
     </style>
 </head>
@@ -106,31 +107,58 @@
             <button>Logout</button>
         </a>
     </div>
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        <h2>City and Country Searches</h2>
+        {% if city_country_searches %}
+            <table>
+                <!-- Header row -->
+                <tr>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Timestamp</th>
+                </tr>
+                <!-- Data rows -->
+                {% for entry in city_country_searches %}
+                    <tr>
+                        <td>{{ entry[2] }}</td>
+                        <td>{{ entry[3] }}</td>
+                        <td>{{ entry[4] }}</td>
+                        <td>{{ entry[7] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No city and country searches available.</p>
+        {% endif %}
+    </div>
 
-   {% if search_history %}
-    <table>
-        <tr>
-            <th>City</th>
-            <th>State</th>
-            <th>Country</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Timestamp</th>
-        </tr>
-      {% for entry in search_history %}
-        <tr>
-            <td>{% if entry[2] %}{{ entry[2] }}{% else %} {% endif %}</td>
-            <td>{% if entry[3] %}{{ entry[3] }}{% else %} {% endif %}</td>
-            <td>{% if entry[4] %}{{ entry[4] }}{% else %} {% endif %}</td>
-            <td>{% if entry[5] %}{{ entry[5] }}{% else %} {% endif %}</td>
-            <td>{% if entry[6] %}{{ entry[6] }}{% else %} {% endif %}</td>
-            <td>{% if entry[7] %}{{ entry[7] }}{% else %} {% endif %}</td>
-        </tr>
-      {% endfor %}
-        </table>
-    {% else %}
-        <p>No search history available.</p>
-    {% endif %}
+    <div>
+        <h2>Coordinate Searches</h2>
+        {% if coordinate_searches %}
+            <table>
+                <!-- Header row -->
+                <tr>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Timestamp</th>
+                </tr>
+                <!-- Data rows -->
+                {% for entry in coordinate_searches %}
+                    <tr>
+                        <td>{{ entry[5] }}</td>
+                        <td>{{ entry[6] }}</td>
+                        <td>{{ entry[7] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No coordinate searches available.</p>
+        {% endif %}
+    </div>
+</div>
+
 </div>
 
 </body>
