@@ -4,4 +4,4 @@ python-dotenv
 Flask-SQLAlchemy
 geopy
 certifi
-
+Flask-MySQLdb
